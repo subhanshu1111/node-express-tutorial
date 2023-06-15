@@ -1,15 +1,22 @@
-const http = require("http");
-const server = http.createServer((req, res) => {
-  if (req.url === "/") {
-    res.end("Welcome to out homepage");
-  }
-  if (req.url === "/about") {
-    res.end("Welcome to about section");
-  }
-  res.end(`
-    <h1>Page doesnt exist</h1>
-    <a href="/">homepage</a>
-`)
-});
+const { readFile, read } = require("fs");
+const { result } = require("lodash");
 
-server.listen(3000);
+const getText = (path) => {
+  return new Promise((resolve, reject) => {
+    readFile("./content/first.txt", "utf8", (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
+getText("./content/first.txt")
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
